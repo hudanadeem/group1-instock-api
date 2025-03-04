@@ -1,20 +1,30 @@
 {
   "name": "instock_with_dbs-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "db:migrate": "knex migrate:latest",
-    "db:seed": "knex seed:run"
+    "db:seed": "knex seed:run",
+    "start": "node --watch index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "knex": "^3.0.1",
     "mysql2": "^3.6.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hudanadeem/group1-instock-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hudanadeem/group1-instock-api/issues"
+  },
+  "homepage": "https://github.com/hudanadeem/group1-instock-api#readme",
+  "description": ""
 }
