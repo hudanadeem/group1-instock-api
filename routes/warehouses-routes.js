@@ -7,7 +7,7 @@ import * as warehouseController from "../controllers/warehouses-controller.js"
 const warehousesRouter = express.Router();
 
 warehousesRouter.route("/")
-.get(warehouseController.index)
+.get(warehouseController.getAllWarehouses)
 
 
 export default warehousesRouter;

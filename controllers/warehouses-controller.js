@@ -2,7 +2,7 @@ import initKnex from "knex";
 import configuration from "../knexfile.js";
 const knex = initKnex(configuration);
 
-const index =  async (_req,res)=>{
+const getAllWarehouses =  async (_req,res)=>{
     try {
         const data = await knex ("warehouses")
         .select(
@@ -23,4 +23,4 @@ const index =  async (_req,res)=>{
     }
 }
 
-export {index}
+export {getAllWarehouses}
