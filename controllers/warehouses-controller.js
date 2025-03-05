@@ -65,40 +65,7 @@ const addWarehouse = async (req, res) => {
   }
 };
 
- 
-
-  
-
-export { getAllWarehouses, addWarehouse};
-
-
-// const addWarehouseTest = async (req, res) => {
-//     if (
-//       !req.body.warehouse_name ||
-//       !req.body.address ||
-//       !req.body.city ||
-//       !req.body.country ||
-//       !req.body.contact_name ||
-//       !req.body.contact_position ||
-//       !req.body.contact_phone ||
-//       !req.body.contact_email
-//     ) {
-//       return res.status(400).json({
-//         message: "Please provide all required fields for the warehouse.",
-//       });
-//     }
-
-//     if (!validator.validate(req.body.contact_email)) {
-//         return res.status(400).json({
-//           message: "Invalid email address format.",
-//         });
-//       }
-
-//       const phone_NumberRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
-//     if(!phone_NumberRegex.test (req.body.contact_phone)){
-//         return res.status(400).json({message:"Invalid Phone Number"})
-
-//     }
+// This is used to roll back data from your database, this way you dont modify the data in your db
 //     try {
 //       await knex.transaction(async (trx) => {
 //         const result = await trx("warehouses").insert(req.body);
@@ -119,3 +86,45 @@ export { getAllWarehouses, addWarehouse};
 //     }
 //   };
   
+
+
+//get Warehouse function
+// const getWarehouse = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const warehouse = await knex("warehouses").where({ id }).first();
+
+//     if (!warehouse) {
+//       return res.status(404).json({ message: `Warehouse with ID ${id} not found` });
+//     }
+
+//     res.status(200).json(warehouse);
+//   } catch (error) {
+//     res.status(500).send(`Error retrieving warehouse: ${error.message}`);
+//   }
+// };
+
+//delete Warehouse function
+const deleteWarehouse = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const warehouseFound = await knex("warehouses").where({ id }).first();
+
+    if (!warehouseFound) {
+      return res
+        .status(404)
+        .json({ message: `Warehouse with ID ${id} not found` });
+    }
+
+    await knex("inventories").where({ warehouse_id: id }).del();
+
+    await knex("warehouses").where({ id }).del();
+
+    return res.status(204).send();
+  } catch (error) {
+    res.status(500).send(`Error deleting warehouse: ${error.message}`);
+  }
+};
+
+export { getAllWarehouses, addWarehouse, deleteWarehouse };

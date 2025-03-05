@@ -54,5 +54,22 @@ const getInventoryById = async (req, res) => {
 // const updateInventory = async (req, res) => {};
 
 // const deleteInventory = async (req, res) => {};
+const deleteInventory = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-export { getAllInventories , getInventoryById};
+    const inventoryFound = await knex("inventories").where({ id }).first();
+
+    if (!inventoryFound) {
+      return res.status(404).json({ message: `Inventory with ID ${id} not found` });
+    }
+
+    await knex("inventories").where({ id }).del();
+
+    return res.status(204).send();
+    } catch (error) {
+      res.status(500).send(`Error deleting inventory: ${error.message}`);
+    }
+};
+
+export { getAllInventories , getInventoryById, deleteInventory};
