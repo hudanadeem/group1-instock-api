@@ -7,8 +7,8 @@ InventoryRouter.route("/")
   .get(inventoriesController.getAllInventories) // get all inventories
 //   .post(inventoriesController.createInventory); // create a new inventory
 
-// InventoryRouter.route("/:id")
-//   .get(inventoriesController.getInventoryById) // get a single inventory
+InventoryRouter.route("/:id")
+  .get(inventoriesController.getInventoryById) // get a single inventory
 //   .patch(inventoriesController.updateInventory) // update inventory
 //   .delete(inventoriesController.deleteInventory); // delete inventory
 
