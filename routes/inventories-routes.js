@@ -1,6 +1,6 @@
 import express from "express";
 
-const warehousesRouter = express.Router();
+const InventoryRouter = express.Router();
 
 
-export default warehousesRouter;
+export default InventoryRouter;
