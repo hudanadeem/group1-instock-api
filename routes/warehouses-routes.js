@@ -11,7 +11,7 @@ warehousesRouter.route("/")
 //   .delete(warehouseController.deleteWarehouse);
 
 warehousesRouter.route("/:id")
-    .get(warehouseController.getWarehouse)  
+    // .get(warehouseController.getWarehouse)  
     .delete(warehouseController.deleteWarehouse);
 
 export default warehousesRouter;
