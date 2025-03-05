@@ -88,21 +88,21 @@ const addWarehouse = async (req, res) => {
   
 
 
-//get Warehouse function
-// const getWarehouse = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const warehouse = await knex("warehouses").where({ id }).first();
+// get Warehouse function
+const getWarehouse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const warehouse = await knex("warehouses").where({ id }).first();
 
-//     if (!warehouse) {
-//       return res.status(404).json({ message: `Warehouse with ID ${id} not found` });
-//     }
+    if (!warehouse) {
+      return res.status(404).json({ message: `Warehouse with ID ${id} not found` });
+    }
 
-//     res.status(200).json(warehouse);
-//   } catch (error) {
-//     res.status(500).send(`Error retrieving warehouse: ${error.message}`);
-//   }
-// };
+    res.status(200).json(warehouse);
+  } catch (error) {
+    res.status(500).send(`Error retrieving warehouse: ${error.message}`);
+  }
+};
 
 //delete Warehouse function
 const deleteWarehouse = async (req, res) => {
@@ -127,4 +127,4 @@ const deleteWarehouse = async (req, res) => {
   }
 };
 
-export { getAllWarehouses, addWarehouse, deleteWarehouse };
+export { getAllWarehouses, getWarehouse, addWarehouse, deleteWarehouse };
