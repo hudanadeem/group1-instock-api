@@ -4,7 +4,8 @@ import * as warehouseController from "../controllers/warehouses-controller.js"
 const warehousesRouter = express.Router();
 
 warehousesRouter.route("/")
-.get(warehouseController.getAllWarehouses);
+.get(warehouseController.getAllWarehouses)
+.post(warehouseController.addWarehouse);
 
 //   .put(warehouseController.editWarehouse)
 

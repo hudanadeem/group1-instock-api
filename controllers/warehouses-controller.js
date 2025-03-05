@@ -88,7 +88,7 @@ const addWarehouse = async (req, res) => {
   
 
 
-//get Warehouse function
+// get Warehouse function
 const getWarehouse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -127,4 +127,4 @@ const deleteWarehouse = async (req, res) => {
   }
 };
 
-export { getAllWarehouses, addWarehouse, deleteWarehouse };
+export { getAllWarehouses, getWarehouse, addWarehouse, deleteWarehouse };
