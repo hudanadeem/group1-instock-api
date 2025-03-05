@@ -21,13 +21,38 @@ const getAllInventories = async (_req, res) => {
   }
 };
 
+const getInventoryById = async (req, res) => {
+    try {
+      const inventoryFound = await knex("inventories")
+        .select(
+          "inventories.id",
+          "warehouses.warehouse_name",
+          "inventories.item_name",
+          "inventories.description",
+          "inventories.category",
+          "inventories.status",
+          "inventories.quantity"
+        )
+        .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+        .where("inventories.id", req.params.id)
+        .first();
+  
+      if (!inventoryFound) {
+        return res.status(404).json({
+          message: `Inventory with ID ${req.params.id} not found`,
+        });
+      }
+  
+      res.status(200).json(inventoryFound);
+  
+    } catch (error) {
+      res.status(400).send(`Error retrieving single Inventory: ${error.message}`);
+    }
+  };  
+// const createInventory = async (req, res) => {};
 
-// const createInventory = async (_req, res) => {};
+// const updateInventory = async (req, res) => {};
 
-// const getInventoryById = async (_req, res) => {};
+// const deleteInventory = async (req, res) => {};
 
-// const updateInventory = async (_req, res) => {};
-
-// const deleteInventory = async (_req, res) => {};
-
-export { getAllInventories };
+export { getAllInventories , getInventoryById};
