@@ -5,7 +5,7 @@ import inventoryRoutes from "./routes/inventories-routes.js";
 import warehousesRoutes from "./routes/warehouses-routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -14,8 +14,8 @@ app.get("/", (req, res) => {
   res.send("InStock API is Running");
 });
 
-app.use("/warehouses", warehousesRoutes);
-app.use("/inventory", inventoryRoutes);
+app.use("/api/warehouses", warehousesRoutes);
+app.use("/api/inventories", inventoryRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
