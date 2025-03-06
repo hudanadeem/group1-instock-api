@@ -9,7 +9,7 @@ InventoryRouter.route("/")
 
 InventoryRouter.route("/:id")
   .get(inventoriesController.getInventoryById) // get a single inventory
-//   .patch(inventoriesController.updateInventory) // update inventory
+  .patch(inventoriesController.updateInventory) // update inventory
   .delete(inventoriesController.deleteInventory); // delete inventory
 
 export default InventoryRouter;
