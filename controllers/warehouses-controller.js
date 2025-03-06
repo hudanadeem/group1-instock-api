@@ -2,6 +2,7 @@ import initKnex from "knex";
 import configuration from "../knexfile.js";
 const knex = initKnex(configuration);
 import validator from "email-validator"
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 const getAllWarehouses = async (_req, res) => {
   try {
     const WarehouseFound = await knex("warehouses").select(
@@ -127,4 +128,50 @@ const deleteWarehouse = async (req, res) => {
   }
 };
 
-export { getAllWarehouses, getWarehouse, addWarehouse, deleteWarehouse };
+// PUT / Edit Warehouse
+const updateWarehouse = async (req,res)=>{
+  
+    if (
+      !req.body.warehouse_name ||
+      !req.body.address ||
+      !req.body.city ||
+      !req.body.country ||
+      !req.body.contact_name ||
+      !req.body.contact_position ||
+      !req.body.contact_phone ||
+      !req.body.contact_email
+    ) {
+      return res.status(400).json({
+        message: "Please provide all required fields for the warehouse.",
+      });
+    }
+    if (!validator.validate(req.body.contact_email)) {
+      return res.status(400).json({
+        message: "Invalid email address format.",
+      });
+    }
+
+    const phone_NumberRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
+  if(!phone_NumberRegex.test (req.body.contact_phone)){
+      return res.status(400).json({message:"Invalid Phone Number"})
+
+  }
+    
+  try {
+    const warehouseExists = await knex("warehouses").
+    where({id:req.params.id})
+    .first();
+    if (!warehouseExists) {
+      return res.status(404).json({ message: `Warehouse with ID ${req.params.id} not found.` });
+    }
+    await knex("warehouses").where({id:req.params.id}).update(req.body);
+    const updatedWarehouse = await knex ("warehouses").where({id:req.params.id}).first()
+    res.status(200).json(updatedWarehouse);
+  } catch (error) {
+    res.status(500).json({
+      message: `Unable to update warehouse: ${error.message}`,
+    });
+  }
+}
+
+export { getAllWarehouses, getWarehouse, addWarehouse, deleteWarehouse , updateWarehouse};
