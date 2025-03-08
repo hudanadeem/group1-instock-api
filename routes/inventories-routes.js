@@ -5,7 +5,7 @@ const InventoryRouter = express.Router();
 
 InventoryRouter.route("/")
   .get(inventoriesController.getAllInventories) // get all inventories
-//   .post(inventoriesController.createInventory); // create a new inventory
+  .post(inventoriesController.createInventory); // create a new inventory
 
 InventoryRouter.route("/:id")
   .get(inventoriesController.getInventoryById) // get a single inventory
