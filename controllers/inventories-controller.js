@@ -50,24 +50,42 @@ const getInventoryById = async (req, res) => {
     }
   };  
 // const createInventory = async (req, res) => {};
+const createInventory = async (req, res) => {
+    const { item_name, description, category, status, quantity, warehouse_id } = req.body;
 
-const updateInventory = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    if (Object.keys(updatedData).length === 0) {
-      return res.status(400).send("No update data provided.");
+    if (!item_name || !description || !category || !status || quantity == null || !warehouse_id) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-    const inventoryFound = await knex("inventories").where({ id }).first();
-
-    if (!inventoryFound) {
-      return res.status(404).json({ message: `Inventory with ID ${id} not found` });
+  
+    const validStatuses = ["In Stock", "Out of Stock"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" });
     }
-
-    await knex("inventories").where({ id }).update(updatedData);
-
-    const updatedInventory = await knex("inventories")
+  
+    if (typeof quantity !== 'number' || quantity < 0) {
+      return res.status(400).json({ message: "Quantity must be a non-negative number" });
+    }
+  
+    const warehouseExists = await knex("warehouses").where({ id: warehouse_id }).first();
+    if (!warehouseExists) {
+      return res.status(400).json({ message: "Invalid warehouse ID" });
+    }
+    try{
+    const newInventoryIds = await knex.transaction(async trx => {
+    const result = await trx("inventories").insert({
+      item_name,
+      description,
+      category,
+      status,
+      quantity,
+      warehouse_id,
+    });
+    return result;
+  });
+    const newInventoryId = newInventoryIds[0];
+    const newInventory = await knex("inventories")
+      .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+      .where("inventories.id", newInventoryId)
       .select(
         "inventories.id",
         "warehouses.warehouse_name",
@@ -77,15 +95,59 @@ const updateInventory = async (req, res) => {
         "inventories.status",
         "inventories.quantity"
       )
-      .join("warehouses", "inventories.warehouse_id", "warehouses.id")
-      .where("inventories.id", id)
       .first();
 
-    const categories = await knex("categories").select("id", "name");
-
-    return res.status(200).json( {updatedInventory, categories });
+    res.status(201).json(newInventory);
   } catch (error) {
-    res.status(500).send(`Error updating inventory: ${error.message}`);
+    res.status(500).json({ message: "Error creating new inventory item", error: error.message });
+  }
+};
+
+const updateInventory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const inventoryId = parseInt(id, 10);
+    const updatedData = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "Invalid inventory ID." });
+    }
+    if (Object.keys(updatedData).length === 0) {
+      return res.status(400).send("No update data provided.");
+    }
+    const inventoryFound = await knex("inventories").where({ id: inventoryId }).first();
+
+    if (!inventoryFound) {
+      return res.status(404).json({ message: `Inventory with ID ${id} not found` });
+    }
+    const allowedFields = ["item_name", "description", "category", "status", "quantity", "warehouse_id"];
+    const filteredData = Object.fromEntries(
+      Object.entries(updatedData).filter(([key]) => allowedFields.includes(key))
+    );
+
+    await knex("inventories").where({ id: inventoryId }).update(filteredData);
+
+    const updatedInventory = await knex("inventories")
+    .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+    .where("inventories.id", inventoryId)
+      .select(
+        "inventories.id",
+        "warehouses.warehouse_name",
+        "inventories.item_name",
+        "inventories.description",
+        "inventories.category",
+        "inventories.status",
+        "inventories.quantity"
+      )
+      .first();
+      
+      if (!updatedInventory) {
+        return res.status(500).json({ message: "Error retrieving updated inventory." });
+      }
+    return res.status(200).json( {updatedInventory});
+  } catch (error) {
+    console.error("Error updating inventory:", error);
+    return res.status(500).json({ message: "Error updating inventory", error: error.message});
   }
 };
 
@@ -108,4 +170,4 @@ const deleteInventory = async (req, res) => {
     }
 };
 
-export { getAllInventories , getInventoryById, deleteInventory, updateInventory};
+export { getAllInventories , getInventoryById, deleteInventory, updateInventory, createInventory};
