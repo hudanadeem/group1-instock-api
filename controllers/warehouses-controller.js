@@ -63,26 +63,6 @@ const addWarehouse = async (req, res) => {
   }
 };
 
-// This is used to roll back data from your database, this way you dont modify the data in your db
-//     try {
-//       await knex.transaction(async (trx) => {
-//         const result = await trx("warehouses").insert(req.body);
-//         const newWarehouseId = result[0];
-
-//         const createdWarehouse = await trx("warehouses").where({ id: newWarehouseId });
-
-//         // Instead of committing, rollback the transaction
-//         await trx.rollback();
-
-//         return res.status(200).json({
-//           message: "Test successful: No data was inserted.",
-//           warehouse: createdWarehouse,
-//         });
-//       });
-//     } catch (error) {
-//       res.status(500).json({ message: `Test failed: ${error.message}` });
-//     }
-//   };
 
 // get Warehouse function
 const getWarehouse = async (req, res) => {
