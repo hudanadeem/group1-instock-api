@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import cors from "cors"; 
+import cors from "cors";
 import inventoryRoutes from "./routes/inventories-routes.js";
 import warehousesRoutes from "./routes/warehouses-routes.js";
 
