@@ -63,7 +63,6 @@ const addWarehouse = async (req, res) => {
   }
 };
 
-
 // get Warehouse function
 const getWarehouse = async (req, res) => {
   try {
