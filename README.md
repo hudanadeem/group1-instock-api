@@ -15,8 +15,10 @@
 
 ## 🛠️ Tech Stack  
 
-### Frontend  
-<p>https://github.com/mimschowdhury/group1-instock<p>
+### Frontend 
+ ```bash
+   https://github.com/mimschowdhury/group1-instock
+   ```
 <p>
   <img src="https://skillicons.dev/icons?i=javascript&theme=dark" width="50" height="50"/>
   <img src="https://skillicons.dev/icons?i=react&theme=dark" width="50" height="50"/>
@@ -38,38 +40,52 @@
   <img src="https://skillicons.dev/icons?i=postman&theme=dark" width="50" height="50"/>
   <img src="https://skillicons.dev/icons?i=figma&theme=dark" width="50" height="50"/>
 </p>
-
 ---
 
 ## 💻 Features  
-- **Inventory Management:** Users can add, update, and delete products in the inventory.  
-- **Product Search:** Users can search for specific products in the inventory.  
+
+- **Inventory Management:**  
+  Add, update, and delete products in the inventory.
+  
+- **Product Search:**  
+  Search for specific products in the inventory.
 
 ---
 
 ## 🚀 Getting Started  
 
 ### Prerequisites  
-- Node.js (v12 or higher)
-- MySQL (for database)
-- npm (for package management)
+- **Node.js** (v12 or higher)
+- **MySQL** (for database)
+- **npm** (for package management)
 
 ### Installation  
-1. Clone the repository  
-   `git clone https://github.com/mimschowdhury/group1-instock.git`
 
-2. Navigate to the project directory  
-   `cd group1-instock`
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/mimschowdhury/group1-instock.git
+   ```
 
-3. Install the dependencies  
-   `npm install`
+2. Navigate to the project directory:  
+   ```bash
+   cd group1-instock
+   ```
+
+3. Install dependencies:  
+   ```bash
+   npm install
+   ```
 
 4. Set up the MySQL database and configure your `.env` file with the necessary credentials.
 
-5. Run the backend server  
-   `npm run start`
+5. Run the backend server:  
+   ```bash
+   npm run start
+   ```
 
-6. Run the frontend React application  
-   `npm run dev`
+6. Run the frontend React application:  
+   ```bash
+   npm run dev
+   ```
 
 ---
